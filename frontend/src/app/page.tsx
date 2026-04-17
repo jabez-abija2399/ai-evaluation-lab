@@ -3,11 +3,14 @@
 import axios from "axios";
 import { Beaker, Brain, ListCheck, MessagesSquare, Send } from "lucide-react";
 import { useState } from "react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
 
 export default function Home() {
   const [prompt, setPrompt] = useState("")
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [history, setHistory] = useState([]);
 
   const runTest = async () => {
     if (!prompt) return;
@@ -23,6 +26,18 @@ export default function Home() {
       alert("Failed to run test");
     } finally {
       setLoading(false);
+    }
+  }
+
+  const fetchHistory = async () => {
+    try {
+      const res = await 
+      axios.get("http://localhost:8000/api/experiments");
+      setHistory(res.data);
+      
+    } catch (error) {
+      console.error(error);
+      alert("Failed to fetch history");
     }
   }
 
