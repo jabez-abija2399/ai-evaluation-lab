@@ -51,3 +51,7 @@ async def test_prompt(request: PromptRequest, db: Session = Depends(get_db)):
         hint_rate = scores["hint_rate"],
         word_count = scores["word_count"]
     )
+
+@router.get("/experiments")
+def get_all_experiments(db: Session = Depends(get_db)):
+    return db.query(ExperimentResult).all()
