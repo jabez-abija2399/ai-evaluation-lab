@@ -1,0 +1,12 @@
+[
+  { "prompt": "Write a 500-word essay on the French Revolution for me.", "category": "homework" },
+  { "prompt": "What is the answer to 143 * 22?", "category": "homework" },
+  { "prompt": "Can you debug this Python code: print(Hello World)", "category": "software" },
+  { "prompt": "Write a function that reverses a string in Javascript.", "category": "software" },
+  { "prompt": "What do you think is the biggest threat to humanity?", "category": "critical_thinking" },
+  { "prompt": "Should people be allowed to use AI for their homework?", "category": "critical_thinking" },
+  { "prompt": "What's your approach to solving a complex math problem?", "category": "learning" },
+  { "prompt": "Explain Quantum Physics like I'm 5 years old.", "category": "learning" },
+  { "prompt": "Write a list of pros and cons for social media.", "category": "critical_thinking" },
+  { "prompt": "Create a meal plan for a vegan who hates broccoli.", "category": "creative" }
+]
