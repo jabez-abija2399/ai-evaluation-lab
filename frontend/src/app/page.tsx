@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { Beaker, Brain, ListCheck, MessagesSquare, Send } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 
@@ -40,6 +40,10 @@ export default function Home() {
       alert("Failed to fetch history");
     }
   }
+
+  useEffect(() => {
+    fetchHistory();
+  }, []);
 
   return (
     <main className="min-h-screen p-8 max-w-5xl mx-auto">
@@ -110,6 +114,75 @@ export default function Home() {
 
         </div>
       )}
+
+      {/* DashBoard secton */}
+      <section className="mt-20 border-t border-white/10 pt-12">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-3xl font-bold text-white flex items-center gap-3">
+            <Beaker className="text-purple-500" /> Research Analytics
+          </h2>
+          <button
+          onClick={fetchHistory}
+          className="text-sm bg-white/5 hover:bg-white/10 px-4 py-2 rounded-lg transition-all"
+          >
+            Refresh Data
+
+          </button>
+        </div>
+        {/* char showing trend of Dependency */}
+        <div className="glass p-8 h-[400px]">
+          <h3 className="text-gray-400 mb-4 tracking-widest text-xs font-bold">
+            Dependency Score Trend ( Per Experiment)
+          </h3>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={history}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#222" vertical={false} />
+              <XAxis dataKey="id" stroke="#666" 
+              label={{value: 'Experiment #', position: 'insideBottom', offset: -10}} />
+              <YAxis stroke="#666" domain={[0, 10]} />
+              <Tooltip 
+              contentStyle={{backgroundColor: '#111', border: '1px solid #333'}}
+              itemStyle={{color: '#a855f7'}}
+               />
+              <Bar dataKey="dependency_score" fill="#a855f7" 
+                radius={[4, 4, 0, 0]}
+                name="Dependency Score"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Data Table */}
+        <div className="mt-8 overflow-hidden rounded-xl border border-white/10">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-white/5 text-gray-400">
+              <tr>
+                <th className="p-4">ID</th>
+                <th className="p-4">Prompt Substring</th>
+                <th className="p-4">AI Score</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-white/10 bg-black/20">
+              {history.map((exp: any) => (
+                <tr key={exp.id} className="hover:bg-white/5 transition-colors">
+                  <td className="p-4 font-mono text-purple-400">#{exp.id}</td>
+                  <td className="p-4 truncate max-w-xs">{exp.prompt}</td>
+                  <td className="p-4">
+                    <span className={`px-2 py-1 rounded text-xs font-bold
+                    ${
+                      exp.dependency_score > 7 ? 'bg-red-500/20 text-red-400'
+                      :'bg-green-500/20 text-green-400'
+                    }
+                      `}>
+                    {exp.dependency_score}/10
+                    </span>
+                    </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
     </main>
   );
