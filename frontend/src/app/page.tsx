@@ -12,11 +12,14 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [history, setHistory] = useState([]);
 
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ;
+  console.log("API_BASE_URL", API_BASE_URL);
+
   const runTest = async () => {
     if (!prompt) return;
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:8000/api/test-prompt", {
+      const response = await axios.post(`${API_BASE_URL}/api/test-prompt`, {
         prompt: prompt,
         model: "gemini"
       });
@@ -32,7 +35,7 @@ export default function Home() {
   const fetchHistory = async () => {
     try {
       const res = await 
-      axios.get("http://localhost:8000/api/experiments");
+      axios.get(`${API_BASE_URL}/api/experiments`);
       setHistory(res.data);
       
     } catch (error) {

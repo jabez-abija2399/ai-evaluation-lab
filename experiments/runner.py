@@ -2,8 +2,14 @@ import requests
 import json
 import requests
 import time
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-API_URL = "http://127.0.0.1:8000/api/test-prompt"
+
+base_url = os.getenv("NEXT_PUBLIC_API_URL")
+API_URL = f"{base_url}/api/test-prompt"
+# "http://127.0.0.1:8000/api/test-prompt"
 
 def run_automated_research():
     with open("prompts.json", "r") as f:
