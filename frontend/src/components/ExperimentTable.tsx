@@ -1,0 +1,53 @@
+// src/components/ExperimentTable.tsx
+export function ExperimentTable({ history }: { history: any[] }) {
+  return (
+    <div className="mt-24 w-full">
+      <div className="flex items-center gap-4 mb-8">
+        <h2 className="text-3xl font-black italic">Research Registry</h2>
+        <div className="h-px flex-1 bg-white/10"></div>
+      </div>
+
+      <div className="overflow-hidden rounded-[32px] border border-white/5 bg-black/40 backdrop-blur-md">
+        <table className="w-full text-left text-sm">
+          <thead className="bg-white/5 text-gray-500 uppercase text-[10px] font-black tracking-widest border-b border-white/5">
+            <tr>
+              <th className="p-6">ID</th>
+              <th className="p-6">Protocol</th>
+              <th className="p-6">Stimulus (Prompt)</th>
+              <th className="p-6">Metrics</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-white/5">
+            {history.map((exp: any) => (
+              <tr key={exp.id} className="hover:bg-white/[0.02] transition-colors group">
+                <td className="p-6 font-mono text-purple-500/50 group-hover:text-purple-400">#{exp.id}</td>
+                <td className="p-6">
+                  <span className={`px-3 py-1 rounded-full text-[9px] font-black tracking-tighter border ${
+                    exp.mode === "socratic" 
+                    ? "bg-green-500/10 border-green-500/20 text-green-400" 
+                    : "bg-red-500/10 border-red-500/20 text-red-400"
+                  }`}>
+                    {exp.mode?.toUpperCase() || "DIRECT"}
+                  </span>
+                </td>
+                <td className="p-6 text-gray-400 group-hover:text-gray-200 transition-colors">
+                   <p className="line-clamp-1 max-w-md">{exp.prompt}</p>
+                </td>
+                <td className="p-6">
+                  <div className="flex gap-2">
+                    <div className="px-2 py-1 bg-white/5 rounded text-[10px] border border-white/5">
+                      Dep: <span className="text-white">{exp.dependency_score}</span>
+                    </div>
+                    <div className="px-2 py-1 bg-white/5 rounded text-[10px] border border-white/5">
+                      Ref: <span className="text-white">{exp.reflection_rate}</span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
