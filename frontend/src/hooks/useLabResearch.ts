@@ -34,5 +34,5 @@ export function useLabResearch() {
     }, []);
   }, [history]);
 
-  return { history, chartData, fetchHistory, loading, setLoading };
+  return { history, chartData, fetchHistory, loading, setLoading, API_BASE_URL };
 }
