@@ -16,4 +16,5 @@ class ExperimentResult(Base):
     reflection_rate = Column(Float)
     hint_rate = Column(Float)
     word_count = Column(Integer)
+    mode = Column(String)
     created_at = Column(DateTime, default = datetime.utcnow)
