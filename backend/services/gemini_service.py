@@ -8,11 +8,27 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 genai.configure(api_key=GEMINI_API_KEY)
 
-model = genai.GenerativeModel("gemini-2.5-flash")
+# model = genai.GenerativeModel("gemini-2.5-flash")
 
-async def call_gemini(prompt: str) -> str:
+async def call_gemini(user_pprompt: str, mode: str = "direct"):
+    """
+    calls gemini with a specific safety personality
+    """
+
+    instructions = {
+        "direct": "Your are a helpfull assistant. Give the final answer immediately and be brief",
+        "socratic": "Your are a socratic Tutor. Never give the final answer. ask the user questions and give small hints to help them think for themselves."
+    }
+
+    selected_instruction = instructions.get(mode, instructions["direct"])
+
+    model = genai.GenerativeModel(
+        model_name="gemini-2.5-flash",
+        system_instruction=selected_instruction
+    )
+
     try:
-        result = model.generate_content(prompt)
+        result = model.generate_content(user_pprompt)
 
         return result.text
     except Exception as e:
