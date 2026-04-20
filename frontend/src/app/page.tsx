@@ -107,7 +107,7 @@ export default function Home() {
               disabled={loading}
               className="w-full group bg-white text-black py-5 rounded-3xl font-black text-xs tracking-widest hover:scale-[1.01] active:scale-95 transition-all flex items-center justify-center gap-3"
             >
-              {loading ? "PROCESSING..." : "RUN EXPERIMENT"}
+              {loading ? "Processing..." : "Run Experiment"}
               <Send size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
