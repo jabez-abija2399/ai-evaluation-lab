@@ -11,6 +11,7 @@ router = APIRouter()
 class PromptRequest(BaseModel):
     prompt: str
     model: str = "gemini"
+    mode: str = "direct"
 
 class PromptResponse(BaseModel):
     prompt: str
@@ -24,13 +25,14 @@ class PromptResponse(BaseModel):
 @router.post("/test-prompt", response_model = PromptResponse)
 async def test_prompt(request: PromptRequest, db: Session = Depends(get_db)):
 
-    ai_response = await call_gemini(request.prompt)
+    ai_response = await call_gemini(request.prompt, mode=request.mode)
 
     scores = score_response(ai_response)
 
     new_result = ExperimentResult(
         prompt = request.prompt,
         model = request.model,
+        mode = request.mode,
         response = ai_response,
         dependency_score = scores["dependency_score"],
         reflection_rate = scores["reflection_rate"],
