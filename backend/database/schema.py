@@ -18,3 +18,16 @@ class ExperimentResult(Base):
     word_count = Column(Integer)
     mode = Column(String)
     created_at = Column(DateTime, default = datetime.utcnow)
+
+class ScoringKeyword(Base):
+    __tablename__ = "scoring_keywords"
+    id = Column(Integer, primary_key=True)
+    phrase = Column(String, unique=True, nullable=False)
+    category = Column(String, nullable=False)
+
+
+class SavedPrompt(Base):
+    __tablename__ = "saved_prompts"
+    id = Column(Integer, primary_key=True)
+    text = Column(String, nullable=False)
+    category = Column(String, default="General")
