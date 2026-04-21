@@ -4,7 +4,7 @@ from services.gemini_service import call_gemini
 from services.scorer import score_response
 from sqlalchemy.orm import Session
 from database.db import get_db
-from database.schema import ExperimentResult
+from database.schema import ExperimentResult, SavedPrompt, ScoringKeyword
 
 router = APIRouter()
 
@@ -27,7 +27,7 @@ async def test_prompt(request: PromptRequest, db: Session = Depends(get_db)):
 
     ai_response = await call_gemini(request.prompt, mode=request.mode)
 
-    scores = score_response(ai_response)
+    scores = score_response(ai_response, db)
 
     new_result = ExperimentResult(
         prompt = request.prompt,
@@ -54,6 +54,17 @@ async def test_prompt(request: PromptRequest, db: Session = Depends(get_db)):
         word_count = scores["word_count"]
     )
 
-@router.get("/experiments")
+@router.get("/history")
 def get_all_experiments(db: Session = Depends(get_db)):
     return db.query(ExperimentResult).all()
+
+@router.get("/keywords") # Get the list to show on the page
+def get_keywords(db: Session = Depends(get_db)):
+    return db.query(ScoringKeyword).all()
+
+@router.post("/keywords") # Add a new word from the UI
+def add_keyword(data: dict, db: Session = Depends(get_db)):
+    new_kw = ScoringKeyword(phrase=data["phrase"], category=data["category"])
+    db.add(new_kw)
+    db.commit()
+    return {"status": "success"}
