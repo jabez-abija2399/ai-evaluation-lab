@@ -5,19 +5,32 @@ import axios from "axios";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 // const API_BASE_URL = "http://localhost:8000";
-
+interface Keyword {
+  id: number;
+  phrase: string;
+  category: string;
+}
 export function useLabResearch() {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [keywords, setKeywords] = useState<Keyword[]>([]);
 
   const fetchHistory = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/experiments`);
+      const res = await axios.get(`${API_BASE_URL}/api/history`);
       setHistory(res.data);
     } catch (e) { console.error(e); }
   };
 
-  useEffect(() => { fetchHistory(); }, []);
+  const fetchKeywords = async () => {
+    const res = await axios.get(`${API_BASE_URL}/api/keywords`);
+    setKeywords(res.data);
+  };
+
+  useEffect(() => { 
+    fetchHistory();
+    fetchKeywords();
+   }, []);
 
   // 🧠 CALCULATION: We do the chart grouping here!
   // This keeps the UI component pure.
@@ -34,5 +47,5 @@ export function useLabResearch() {
     }, []);
   }, [history]);
 
-  return { history, chartData, fetchHistory, loading, setLoading, API_BASE_URL };
+  return { history, chartData, fetchHistory, loading, setLoading, API_BASE_URL, fetchKeywords, keywords };
 }
