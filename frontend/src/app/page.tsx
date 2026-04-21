@@ -11,7 +11,7 @@ import { ObservationResult } from "@/components/ObservationResult";
 import { ExperimentTable } from "@/components/ExperimentTable";
 
 export default function Home() {
-  const { history, chartData, fetchHistory, loading, setLoading, API_BASE_URL } = useLabResearch();
+  const { history, chartData, fetchHistory, keywords, fetchKeywords, loading, setLoading, API_BASE_URL } = useLabResearch();
   const [prompt, setPrompt] = useState("");
   const [latestResult, setLatestResult] = useState<any>(null);
   const [mode, setMode] = useState("direct");
@@ -31,6 +31,21 @@ export default function Home() {
       console.error("Critical Experiment Failure:", error);
     }
     setLoading(false);
+  };
+
+
+  const addKeyword = async (category: string) => {
+    const phrase = window.prompt("Enter a new " + category + " phrase:"); // Simple popup for now
+    if (!phrase) return;
+    try {
+      await axios.post(`${API_BASE_URL}/api/keywords`, {
+        phrase,
+        category
+      });
+      fetchKeywords(); // 👈 Refresh the list instantly!
+    } catch (e) {
+      alert("Phrase already exists or error occurred!");
+    }
   };
 
   return (
@@ -150,6 +165,46 @@ export default function Home() {
         </div>
         <ExperimentTable history={history} />
       </section>
+
+      {/* 🏷️ KEYWORD MANAGER */}
+      <section className="glass-card p-8 mt-12">
+        <h2 className="text-2xl font-black mb-6">Learning Signals</h2>
+
+        <div className="grid grid-cols-3 gap-8">
+          {/* REFLECTION COLUMN */}
+          <div>
+            <h3 className="text-green-400 font-bold mb-4">Reflection Phrases</h3>
+            <div className="space-y-2">
+              {keywords.filter(k => k.category === 'reflection').map(k => (
+                <span className="block text-xs bg-green-500/10 p-2 rounded-lg">{k.phrase}</span>
+              ))}
+            </div>
+            <button onClick={() => addKeyword('reflection')} className="mt-4 text-[10px] text-gray-500 hover:text-white">+ ADD PHRASE</button>
+          </div>
+
+          {/* Hint  */}
+          <div>
+            <h3 className="text-green-400 font-bold mb-4">Hint Phrases</h3>
+            <div className="space-y-2">
+              {keywords.filter(k => k.category === 'hint').map(k => (
+                <span className="block text-xs bg-green-500/10 p-2 rounded-lg">{k.phrase}</span>
+              ))}
+            </div>
+            <button onClick={() => addKeyword('hint')} className="mt-4 text-[10px] text-gray-500 hover:text-white">+ ADD PHRASE</button>
+          </div>
+
+          <div>
+            <h3 className="text-green-400 font-bold mb-4">Dependency Phrases</h3>
+            <div className="space-y-2">
+              {keywords.filter(k => k.category === 'dependency').map(k => (
+                <span className="block text-xs bg-green-500/10 p-2 rounded-lg">{k.phrase}</span>
+              ))}
+            </div>
+            <button onClick={() => addKeyword('dependency')} className="mt-4 text-[10px] text-gray-500 hover:text-white">+ ADD PHRASE</button>
+          </div>
+        </div>
+      </section>
+
     </main>
   );
 }
