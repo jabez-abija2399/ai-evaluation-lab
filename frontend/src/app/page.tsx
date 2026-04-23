@@ -87,6 +87,7 @@ export default function Home() {
       </div>
 
       {/* 2. THE LABORATORY ENVIRONMENT */}
+      {/* 2. THE LABORATORY ENVIRONMENT */}
       <section className="bg-white/[0.02] border-y border-white/5 py-24">
         <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16">
 
@@ -97,10 +98,33 @@ export default function Home() {
               Active Stimulation
             </h2>
 
-            <div className="bg-black/40 p-1.5 flex border border-white/10 rounded-2xl">
-              <button onClick={() => setMode("direct")} className={`flex-1 py-3 rounded-xl text-[10px] font-black transition-all ${mode === "direct" ? "bg-red-600 text-white shadow-xl shadow-red-600/20" : "text-gray-500 hover:text-white"}`}>DIRECT MODE</button>
-              <button onClick={() => setMode("socratic")} className={`flex-1 py-3 rounded-xl text-[10px] font-black transition-all ${mode === "socratic" ? "bg-green-600 text-white shadow-xl shadow-green-600/20" : "text-gray-500 hover:text-white"}`}>SOCRATIC MODE</button>
+            {/* 🚀 THE 4-BUTTON GRID */}
+            <div className="bg-black/40 p-1.5 grid grid-cols-2 lg:grid-cols-4 gap-2 border border-white/10 rounded-2xl">
+              <button
+                onClick={() => setMode("direct")}
+                className={`py-3 rounded-xl text-[9px] font-black transition-all ${mode === "direct" ? "bg-red-600 text-white shadow-xl shadow-red-600/20" : "text-gray-500 hover:text-white"}`}>
+                DIRECT
+              </button>
+
+              <button
+                onClick={() => setMode("reflection")}
+                className={`py-3 rounded-xl text-[9px] font-black transition-all ${mode === "reflection" ? "bg-indigo-600 text-white shadow-xl shadow-indigo-600/20" : "text-gray-500 hover:text-white"}`}>
+                REFLECTION
+              </button>
+
+              <button
+                onClick={() => setMode("hint")}
+                className={`py-3 rounded-xl text-[9px] font-black transition-all ${mode === "hint" ? "bg-yellow-600 text-white shadow-xl shadow-yellow-600/20" : "text-gray-500 hover:text-white"}`}>
+                HINT
+              </button>
+
+              <button
+                onClick={() => setMode("socratic")}
+                className={`py-3 rounded-xl text-[9px] font-black transition-all ${mode === "socratic" ? "bg-green-600 text-white shadow-xl shadow-green-600/20" : "text-gray-500 hover:text-white"}`}>
+                SOCRATIC
+              </button>
             </div>
+
 
             <textarea
               className="w-full h-54 bg-black/40 border border-white/10 rounded-[32px] p-8 focus:outline-none focus:ring-4 focus:ring-purple-500/20 transition-all text-xl placeholder:text-gray-800"
@@ -176,7 +200,7 @@ export default function Home() {
             <h3 className="text-green-400 font-bold mb-4">Reflection Phrases</h3>
             <div className="space-y-2">
               {keywords.filter(k => k.category === 'reflection').map(k => (
-                <span className="block text-xs bg-green-500/10 p-2 rounded-lg">{k.phrase}</span>
+                <span key={k.id} className="block text-xs bg-green-500/10 p-2 rounded-lg">{k.phrase}</span>
               ))}
             </div>
             <button onClick={() => addKeyword('reflection')} className="mt-4 text-[10px] text-gray-500 hover:text-white">+ ADD PHRASE</button>
@@ -187,7 +211,7 @@ export default function Home() {
             <h3 className="text-green-400 font-bold mb-4">Hint Phrases</h3>
             <div className="space-y-2">
               {keywords.filter(k => k.category === 'hint').map(k => (
-                <span className="block text-xs bg-green-500/10 p-2 rounded-lg">{k.phrase}</span>
+                <span key={k.id} className="block text-xs bg-green-500/10 p-2 rounded-lg">{k.phrase}</span>
               ))}
             </div>
             <button onClick={() => addKeyword('hint')} className="mt-4 text-[10px] text-gray-500 hover:text-white">+ ADD PHRASE</button>
@@ -197,7 +221,7 @@ export default function Home() {
             <h3 className="text-green-400 font-bold mb-4">Dependency Phrases</h3>
             <div className="space-y-2">
               {keywords.filter(k => k.category === 'dependency').map(k => (
-                <span className="block text-xs bg-green-500/10 p-2 rounded-lg">{k.phrase}</span>
+                <span key={k.id} className="block text-xs bg-green-500/10 p-2 rounded-lg">{k.phrase}</span>
               ))}
             </div>
             <button onClick={() => addKeyword('dependency')} className="mt-4 text-[10px] text-gray-500 hover:text-white">+ ADD PHRASE</button>
