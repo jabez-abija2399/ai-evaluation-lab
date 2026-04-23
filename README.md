@@ -71,3 +71,7 @@ npm run dev
 cd experiments
 python3 runner.py
 ```
+
+## 📑 Research Documents
+- [Full Research Plan](docs/RESEARCH_PLAN.md)
+- [Preliminary Analysis](docs/ANALYSIS.md)
